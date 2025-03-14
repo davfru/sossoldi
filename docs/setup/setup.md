@@ -49,3 +49,43 @@ If you are unfamiliar with Git you might want to use GitHub Desktop.
 1. Go to this link and download GitHub Desktop. With this it will be easier to manage and submit the changes that you will do. After the download, set up your account.
 2. Now comeback to your repository on GitHub and click on Code -> Open with GitHub Desktop
 3. This will open GitHub Desktop and it should ask you to add the path in which you want to save the folder with the project. Then click on clone.
+
+## (Optional) Running Android app via adb debugging (wifi)
+
+- make sure both the Android device and your computer are connected to the same WiFi
+- on your Android device go under *"System" > "Developer options" > "Debug wireless"* and click on *"Pair device with pairing code"*
+- run the project inside the container and run
+
+```sh
+adb pair [ip]:[port]
+```
+
+*ip* and *port* are given by the device when clicking on *"Pair device with pairing code"*
+
+- enter the pairing code
+- on your android device close the pairing screen and look at the *"IP address and port"*
+
+```sh
+adb connect [ip]:[port]
+adb devices
+flutter run -d 192.168.0.102:40945
+```
+
+to run in debug mode add the following config inside .vscode/launch.json (if this file does not exist, create it)
+
+```json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Flutter on Device",
+      "type": "dart",
+      "request": "launch",
+      "flutterMode": "debug",
+      "deviceId": "192.168.0.102:40945"
+    }
+  ]
+}
+```
+
+Once this config is set, you can use it by clicking on the "Run and Debug" icon in the left sidebar menu.
